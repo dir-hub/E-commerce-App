@@ -1,6 +1,5 @@
 import {v2 as cloudinary} from 'cloudinary'
 import productModel from "../models/productModel.js";
-import fs from 'fs';
 
 const addProduct = async (req,res)=>{
     try {
@@ -21,12 +20,23 @@ const addProduct = async (req,res)=>{
         let imagesUrl = []
         if (images.length > 0) {
             imagesUrl = await Promise.all(images.map(async (item)=>{
-                
-                let result = await cloudinary.uploader.upload(item.path, {resource_type: 'image'})
-                // Delete the temporary file after uploading to Cloudinary
-                if (fs.existsSync(item.path)) {
-                    fs.unlinkSync(item.path)
+                // Use buffer for memory storage (Vercel serverless compatible)
+                const uploadOptions = {
+                    resource_type: 'image',
+                    folder: 'forever-products' // Optional: organize images in Cloudinary
                 }
+                
+                // Upload from buffer instead of file path
+                const result = await new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload_stream(
+                        uploadOptions,
+                        (error, result) => {
+                            if (error) reject(error)
+                            else resolve(result)
+                        }
+                    ).end(item.buffer)
+                })
+                
                 return result.secure_url
             }))
         }
