@@ -144,7 +144,7 @@ const Add = ({token}) => {
                 <select onChange={(e)=>setCategory(e.target.value)} className='w-full px-3 py-2 outline-none' required>
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
-                    <option value="Kid">Kid</option>
+                    <option value="Kids">Kids</option>
                 </select>
             </div>
             <div>
