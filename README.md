@@ -58,7 +58,7 @@ Designed with real-world features, clean architecture, and responsive UI for all
 ---
 
 ## 🌐 Live Demo
-🔗 **Live Site:** https://ecommerce-mern.vercel.app
+🔗 **Live Site:** https://forverecommerceclothing.vercel.app
 
 ---
 
